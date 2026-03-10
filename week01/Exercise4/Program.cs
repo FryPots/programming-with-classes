@@ -10,7 +10,10 @@ class Program
         while (input != 0)  {
             Console.Write("Enter a number: ");
             input = int.Parse(Console.ReadLine());
-            numbers.Add(input);
+            if (input != 0)
+            {
+                numbers.Add(input);            
+            }
         }   
 
         int sum = 0;
@@ -23,7 +26,7 @@ class Program
             }
         }
         Console.WriteLine($"The sum is: {sum}");
-        Console.WriteLine($"The average is: {sum / ((float)numbers.Count - 1)}");
+        Console.WriteLine($"The average is: {sum / ((float)numbers.Count)}");
         Console.WriteLine($"The greatest number is: {greater}");
     }
 }

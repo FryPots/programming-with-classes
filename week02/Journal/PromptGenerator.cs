@@ -2,7 +2,7 @@ using System;
 
 public class PromptGenerator
 {
-    public List<string> _prompts = new List<string>
+    private List<string> _prompts = new List<string>
     {
         "What was the highlight of your day?",
         "Describe something you learned today.",
@@ -16,9 +16,10 @@ public class PromptGenerator
         "What is something you are looking forward to?"
     };
 
-    static string GetRandomPrompt()
+    public string GetRandomPrompt()
     {
-        Random ran = new Random();
-        return "";
+        Random rnd = new Random();
+        int n = rnd.Next(1,_prompts.Count());
+        return _prompts[n];   
     }
 }

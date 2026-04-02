@@ -26,6 +26,7 @@ class Program
         Console.WriteLine($"Emily's Order Total: ${emilyOrder.GetTotalPrice():0.00}");
         Console.WriteLine($"Emily's Shipping Label: {emilyOrder.GetShippingLabel()}");
         Console.WriteLine($"Emily's Order Items: {string.Join(", ", emilyOrder.GetPackingLabels())}");
+        
 
     }
 }

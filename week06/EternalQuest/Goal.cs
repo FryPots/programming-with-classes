@@ -27,7 +27,7 @@ public abstract class Goal
         return $"{_shortName}";
     }
 
-    public int GetPts()
+    public virtual int GetPts()
     {
         return _points;
     }

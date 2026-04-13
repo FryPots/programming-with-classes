@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Runtime;
 
 public class GoalManager
@@ -38,7 +39,7 @@ public class GoalManager
             }
             if (_player == "3")
             {
-                
+                SaveFile();
             }
             if (_player == "4")
             {
@@ -144,18 +145,92 @@ public class GoalManager
         target.RecordEvent();
         if (!target.IsComplete())
         {
-            _score += target.GetPts();        
-            if (target is CheckListGoal checklistTarget)
-            {
-                if (checklistTarget.IsComplete())
-                {
-                    _score += checklistTarget.GetBonus();            
-                }
-            }
+            _score += target.GetPts();
+            Console.WriteLine($"You have earned {target.GetPts()} points!");       
         }
         else
         {
             Console.WriteLine("This goal was already reported! (X o X)!");
+        }
+    }
+
+    public void SaveFile()
+    {
+        Console.Clear();
+        Console.WriteLine("What is the name of your .txt file? (exclude the file extension)");
+        Console.Write("> ");
+
+        string fileName = Console.ReadLine();
+
+        using (StreamWriter writer = new StreamWriter(fileName + ".txt"))
+        {
+            writer.WriteLine(_score);
+
+            foreach (Goal goal in _goals)
+            {
+                writer.WriteLine(goal.GetStringRepresentation());
+            }
+        }
+
+        Console.WriteLine("File saved successfully!");
+    }
+
+    public void LoadFile()
+    {
+        Console.Clear();
+        Console.WriteLine("What is the name of your .txt file? (exclude the file extension)");
+        Console.Write("> ");
+
+        _goals = new();
+
+        string fileName = Console.ReadLine();
+
+        using (StreamReader reader = new StreamReader(fileName + ".txt"))
+        {
+            _score = int.Parse(reader.ReadLine());
+
+            foreach (Goal goal in _goals)
+            {
+                string line = reader.ReadLine();
+
+                List<string> myObject = line.Split(":").ToList();       
+                List<string> myValues = myObject[1].Split("|").ToList();
+
+                string name = myValues[0];
+                string desc = myValues[1];
+                int points  = int.Parse(myValues[2]);
+
+
+                if (myObject[0] == "SimpleGoal")
+                {
+                    SimpleGoal tmp = new (name, desc, points);
+                    
+                    string completed = myValues[3];
+                    if(completed.ToUpper() == "TRUE")
+                    {
+                        tmp.RecordEvent();
+                        _goals.Add(tmp);
+                    }
+                }
+                if (myObject[0] == "CheckListGoal")
+                {
+                    int bonus, ammountCompleted, target;
+                    bonus = int.Parse(myValues[3]);
+                    ammountCompleted = int.Parse(myValues[4]);
+                    target = int.Parse(myValues[5]);
+
+                    CheckListGoal tmp = new CheckListGoal(name, desc, points, bonus, target);
+                    for (int i = 0; i < ammountCompleted + 1; i++)
+                    {
+                        tmp.RecordEvent();
+                    }
+                    _goals.Add(tmp);
+                }   
+                if (myObject[0] == "EternalGoal")
+                {
+                    _goals.Add(new EternalGoal(name, desc, points));
+                }
+            }
         }
     }
 }

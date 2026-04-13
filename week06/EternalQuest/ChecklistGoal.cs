@@ -10,11 +10,7 @@ public class CheckListGoal : Goal
     public override void RecordEvent()
     {
         GoalManager gm = new ();
-        if (IsComplete())
-        {
-            Console.Write("You already achieved this goal.");
-        }
-        else
+        if (!IsComplete()) 
         {        
             _amountCompleted += 1;
         }
@@ -36,7 +32,7 @@ public class CheckListGoal : Goal
         {
             cMark = "[X]";
         }
-        return $"{cMark} {_shortName} ({_description}) -- Currently completed {_amountCompleted}/{_target}";
+        return $"{cMark} {_shortName} ({_description}) -- Currently completed ( {_amountCompleted} / {_target} )";
     }
 
     public override string GetStringRepresentation()
@@ -44,8 +40,14 @@ public class CheckListGoal : Goal
         return $"CheckListGoal:{_shortName}|{_description}|{_points}|{_bonus}|{_amountCompleted}|{_target}";
     }
 
-    public int GetBonus()
+    public override int GetPts()
     {
-        return _bonus;
+        int completed = 0;
+
+        if (IsComplete())
+        {
+            completed = 1;
+        } 
+        return base._points + (_bonus * completed);
     }
 }

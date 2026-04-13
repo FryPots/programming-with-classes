@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices.Java;
-
 public abstract class Goal
 {
     protected string _shortName, _description;
@@ -23,4 +21,14 @@ public abstract class Goal
         return $"{cMark} {_shortName} ({_description})";
     }
     public abstract string GetStringRepresentation();
+
+    public string GetName()
+    {
+        return $"{_shortName}";
+    }
+
+    public int GetPts()
+    {
+        return _points;
+    }
 }

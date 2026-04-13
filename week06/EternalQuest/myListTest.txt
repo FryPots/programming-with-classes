@@ -1,0 +1,6 @@
+20
+SimpleGoal:Minecraft|Play Minecraft|10|False
+SimpleGoal:Undertale|Play Undertale|10|True
+CheckListGoal:listTest01|check if the list saving works|10|100|0|5
+CheckListGoal:listTest02|check if the list saving works|20|200|1|5
+CheckListGoal:listTest03|check if the list saving works|30|300|2|7

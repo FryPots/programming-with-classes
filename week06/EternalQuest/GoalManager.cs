@@ -16,7 +16,7 @@ public class GoalManager
     public void Start()
     {
         while (_player != "6")
-        {        
+        {   
             Console.WriteLine($"\nYou have {_score} points.\n");
             Console.WriteLine($"Menu Options:");
             Console.WriteLine( "  1. Create New Goal");
@@ -43,13 +43,18 @@ public class GoalManager
             }
             if (_player == "4")
             {
-                
+                LoadFile();
             }
             if (_player == "5")
             {
                 RecordEvent();
             }
+        
+            Console.Write("Press Enter to continue...");
+            Console.ReadLine();
+            Console.Clear();
         }
+
 
     }
 
@@ -173,64 +178,67 @@ public class GoalManager
         }
 
         Console.WriteLine("File saved successfully!");
-    }
-
+        }
     public void LoadFile()
     {
         Console.Clear();
         Console.WriteLine("What is the name of your .txt file? (exclude the file extension)");
         Console.Write("> ");
-
-        _goals = new();
-
+        
         string fileName = Console.ReadLine();
+
+        _goals = new List<Goal>();
 
         using (StreamReader reader = new StreamReader(fileName + ".txt"))
         {
             _score = int.Parse(reader.ReadLine());
 
-            foreach (Goal goal in _goals)
+            string line;
+            while ((line = reader.ReadLine()) != null)
             {
-                string line = reader.ReadLine();
-
-                List<string> myObject = line.Split(":").ToList();       
+                List<string> myObject = line.Split(":").ToList();
                 List<string> myValues = myObject[1].Split("|").ToList();
 
                 string name = myValues[0];
                 string desc = myValues[1];
-                int points  = int.Parse(myValues[2]);
-
+                int points = int.Parse(myValues[2]);
 
                 if (myObject[0] == "SimpleGoal")
                 {
-                    SimpleGoal tmp = new (name, desc, points);
-                    
-                    string completed = myValues[3];
-                    if(completed.ToUpper() == "TRUE")
+                    SimpleGoal tmp = new SimpleGoal(name, desc, points);
+
+                    bool completed = bool.Parse(myValues[3]);
+                    if (completed)
                     {
                         tmp.RecordEvent();
-                        _goals.Add(tmp);
                     }
+
+                    _goals.Add(tmp);
                 }
                 if (myObject[0] == "CheckListGoal")
                 {
-                    int bonus, ammountCompleted, target;
-                    bonus = int.Parse(myValues[3]);
-                    ammountCompleted = int.Parse(myValues[4]);
-                    target = int.Parse(myValues[5]);
+                    int bonus = int.Parse(myValues[3]);
+                    int amountCompleted = int.Parse(myValues[4]);
+                    int target = int.Parse(myValues[5]);
 
                     CheckListGoal tmp = new CheckListGoal(name, desc, points, bonus, target);
-                    for (int i = 0; i < ammountCompleted + 1; i++)
+
+                    for (int i = 0; i < amountCompleted; i++)
                     {
                         tmp.RecordEvent();
                     }
+
+                    Console.WriteLine($"Target: {target}\nTimes Completed: {amountCompleted}");
+
                     _goals.Add(tmp);
-                }   
+                }
                 if (myObject[0] == "EternalGoal")
                 {
                     _goals.Add(new EternalGoal(name, desc, points));
                 }
             }
         }
+
+        Console.WriteLine($"{_goals.Count} elements created!");
     }
 }

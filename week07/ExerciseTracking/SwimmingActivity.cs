@@ -1,7 +1,7 @@
 public class SwimmingActivity : Activity
 {
     private int _swimmingLaps;
-    public SwimmingActivity(float lengthInMin, int laps = 1) : base (lengthInMin)
+    public SwimmingActivity(float lengthInMin, int laps = 1) : base(lengthInMin)
     {
         _type = "Swimming";
         _swimmingLaps = laps;

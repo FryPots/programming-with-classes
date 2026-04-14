@@ -2,12 +2,12 @@
 public class CyclismActivity : Activity
 {
     private float _speed;
-    public CyclismActivity(float lengthInMin, float speed) : base (lengthInMin)
+    public CyclismActivity(float lengthInMin, float speed) : base(lengthInMin)
     {
-        _type  = "Cyclism";
+        _type = "Cyclism";
         _speed = speed;
-    }    
-    
+    }
+
     public override float GetSpeed()
     {
         return (float)_speed;

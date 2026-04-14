@@ -4,11 +4,11 @@ class Program
 {
     static void Main(string[] args)
     {
-        List<Activity> activities = new List<Activity>()
+        List<Activity> activities = new ()
         {
             new RunningActivity(30, 5.0f),
             new RunningActivity(45, 8.5f),
-            new RunningActivity(20, 3.2f), 
+            new RunningActivity(20, 3.2f),
 
             new CyclismActivity(60, 20.0f),
             new CyclismActivity(30, 15.5f),

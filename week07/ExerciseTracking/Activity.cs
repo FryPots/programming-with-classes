@@ -19,7 +19,7 @@ public abstract class Activity
     public abstract float GetSpeed();
     public abstract float GetPace();
 
-//  GetSummary method to produce a string with all the summary information.
+    //  GetSummary method to produce a string with all the summary information.
 
     public virtual string GetSummary()
     {
